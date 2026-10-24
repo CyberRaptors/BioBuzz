@@ -37,7 +37,12 @@ public class ActionableRaptorRobot extends RaptorRobot {
 
 	public Action setIntakePower(double power) {
 		return new LockedUsageAction(
-				new InstantAction(() -> intake.setPower(power)),
+				new InstantAction(() -> {
+					intake.setPower(power);
+					if (intake2 != null) {
+						intake2.setPower(power);
+					}
+				}),
 				intake
 		);
 	}
@@ -107,11 +112,13 @@ public class ActionableRaptorRobot extends RaptorRobot {
 						new MotorSetVelocityAction(shooterLeft, velo, 40),
 						new InstantAction(() -> {
 							intake.setPower(1);
+							if (intake2 != null) intake2.setPower(1);
 							transfer.setPower(1);
 						}),
 						new SleepAction(dt),
 						new InstantAction(() -> {
 							intake.setPower(0);
+							if (intake2 != null) intake2.setPower(0);
 							transfer.setPower(0);
 						})
 				),

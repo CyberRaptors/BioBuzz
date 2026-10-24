@@ -4,17 +4,20 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.InteropFields;
 
 import lib8812.common.game.FieldConstants;
 import lib8812.common.game.GameConstants;
 import lib8812.common.robot.IMecanumRobot;
+import lib8812.common.robot.hardwarewrappers.BinaryClaw;
 import lib8812.common.robot.hardwarewrappers.SoftwareGangedMotors;
 import lib8812.common.rr.MecanumDrive;
 
@@ -76,6 +79,9 @@ public class RaptorRobot extends IMecanumRobot {
 
 	public final double AUTO_SHOOT_ANG_VELO_OFFSET_MULTIPLIER = 0; // previously two; if the problem became worse then we need to increase this
 
+	public final double INTAKE_INIT_POS_1 = 0.0;
+	public final double INTAKE_INIT_POS_2 = 1.0;
+
 	public MecanumDrive drive;
 
 	public DcMotor intake;
@@ -85,6 +91,8 @@ public class RaptorRobot extends IMecanumRobot {
 	public DcMotorEx shooterLeft;
 	public DcMotorEx shooterRight;
 	public Limelight3A limelight;
+	public BinaryClaw intakeInit;
+	public CRServo intake2;
 
 	public final boolean onBlueTeam;
 
@@ -97,6 +105,18 @@ public class RaptorRobot extends IMecanumRobot {
 		} else {
 			drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
 		}
+
+		intakeInit = new BinaryClaw(
+				hardwareMap.get(Servo.class, "intakeInit"),
+				INTAKE_INIT_POS_1,
+				INTAKE_INIT_POS_2
+		);
+
+		intakeInit.open();
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException ignored) {}
+		intakeInit.close();
 
 		shooterLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -148,6 +168,7 @@ public class RaptorRobot extends IMecanumRobot {
 	public void setShooterPIDFCoefficients(double p, double i, double d, double f, DcMotorEx shooter) {
 		PIDFCoefficients originalPIDFCoefficients = shooter.getPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER);
 
+
 		if (originalPIDFCoefficients.p == p && originalPIDFCoefficients.i == i && originalPIDFCoefficients.d == d && originalPIDFCoefficients.f == f)
 			return;
 
@@ -169,7 +190,12 @@ public class RaptorRobot extends IMecanumRobot {
 		}
 
 		public void setIntakePower(double power) {
-			useAndRelease(intake, () -> intake.setPower(power));
+			useAndRelease(intake, () -> {
+				intake.setPower(power);
+				if (intake2 != null) {
+					intake2.setPower(power);
+				}
+			});
 		}
 
 		public void setTransferVelocity(double velo) {
