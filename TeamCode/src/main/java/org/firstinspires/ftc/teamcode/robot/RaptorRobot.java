@@ -119,6 +119,9 @@ public class RaptorRobot extends IMecanumRobot {
 		intakeInit.close();
 
 		shooterLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+		if (intake2 != null) {
+			intake2.setDirection(DcMotorSimple.Direction.REVERSE);
+		}
 
 		shooterLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 		shooterRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
