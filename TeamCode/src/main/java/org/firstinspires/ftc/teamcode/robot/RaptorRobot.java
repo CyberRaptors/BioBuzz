@@ -190,12 +190,13 @@ public class RaptorRobot extends IMecanumRobot {
 		}
 
 		public void setIntakePower(double power) {
-			useAndRelease(intake, () -> {
-				intake.setPower(power);
-				if (intake2 != null) {
-					intake2.setPower(power);
-				}
-			});
+			useAndRelease(intake, () -> intake.setPower(power));
+		}
+
+		public void setIntake2Power(double power) {
+			if (intake2 != null) {
+				useAndRelease(intake2, () -> intake2.setPower(power));
+			}
 		}
 
 		public void setTransferVelocity(double velo) {

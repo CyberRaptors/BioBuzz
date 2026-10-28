@@ -13,6 +13,8 @@ DRIVER A
 DRIVER B
 	RIGHT TRIGGER - Run intake group forwards
 	LEFT TRIGGER - Run intake group in reverse
+	RIGHT BUMPER - Run intake2 forwards
+	LEFT BUMPER - Run intake2 in reverse
 	LEFT STICK (Y) - Run transfer forwards (+) and backwards (-)
 	RIGHT STICK (Y) - Run transfer forwards (+) and backwards (-)
 
@@ -126,6 +128,7 @@ public class RaptorMainRunner extends ITeleOpRunner {
 			/* END DRIVE CONTROL */
 
 			bot.driverControl.setIntakePower(gamepad2.inner.right_trigger - gamepad2.inner.left_trigger);
+			bot.driverControl.setIntake2Power((gamepad2.inner.right_bumper ? 1.0 : 0.0) - (gamepad2.inner.left_bumper ? 1.0 : 0.0));
 			bot.driverControl.setTransferVelocity((gamepad2.inner.right_stick_y + gamepad2.inner.left_stick_y) * bot.TRANSFER_MAX_VELOCITY);
 
 			runShooter();
@@ -151,8 +154,9 @@ public class RaptorMainRunner extends ITeleOpRunner {
 
 			telemetry.addData(
 					"intake group",
-					"power (%.2f)",
-					bot.intake.getPower()
+					"power (%.2f) intake2 (%.2f)",
+					bot.intake.getPower(),
+					bot.intake2 != null ? bot.intake2.getPower() : 0.0
 			);
 
 			telemetry.addData(
