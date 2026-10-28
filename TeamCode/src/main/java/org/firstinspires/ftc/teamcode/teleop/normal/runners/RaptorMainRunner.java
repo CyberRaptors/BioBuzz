@@ -182,6 +182,7 @@ public class RaptorMainRunner extends ITeleOpRunner {
 						shooterMaxVelo,
 						bot.shooterLeft.getVelocity(),
 						bot.shooterRight.getVelocity(),
+						bot.getShooterVelocityPresetLabel(shooterMaxVelo),
 						canShoot ? "READY TO SHOOT" : ""
 				);
 			} else {
