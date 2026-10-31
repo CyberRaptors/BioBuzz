@@ -51,6 +51,7 @@ public class RaptorRobot extends IMecanumRobot {
 	public final double SHOOTER_VELO_FOR_CLOSE_SHOT = 1440;
 	public final double SHOOTER_VELO_FOR_MID_SHOT = 1500;
 	public final double SHOOTER_VELO_FOR_FAR_SHOT = 1620;
+	public final double SHOOTER_VELO_FOR_2040_SHOT = 2040;
 
 	// auto-only (no preset)
 	public final double SHOOTER_VELO_FOR_SHORT_PARK_SHOT = SHOOTER_VELO_FOR_CLOSE_SHOT+80;
@@ -61,7 +62,8 @@ public class RaptorRobot extends IMecanumRobot {
 	public final double[] SHOOTER_VELO_PRESETS = {
 			SHOOTER_VELO_FOR_CLOSE_SHOT,
 			SHOOTER_VELO_FOR_MID_SHOT,
-			SHOOTER_VELO_FOR_FAR_SHOT
+			SHOOTER_VELO_FOR_FAR_SHOT,
+			SHOOTER_VELO_FOR_2040_SHOT
 	};
 
 	public final double SHOOTER_GATE_OPEN_POS = 0.0;
@@ -144,6 +146,7 @@ public class RaptorRobot extends IMecanumRobot {
 		if (velo == SHOOTER_VELO_FOR_CLOSE_SHOT) return "close";
 		if (velo == SHOOTER_VELO_FOR_MID_SHOT) return "mid";
 		if (velo == SHOOTER_VELO_FOR_FAR_SHOT) return "far";
+		if (velo == SHOOTER_VELO_FOR_2040_SHOT) return "2040";
 
 		return "custom";
 	}
