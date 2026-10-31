@@ -35,6 +35,17 @@ public class ActionableRaptorRobot extends RaptorRobot {
 		super(blueTeam);
 	}
 
+	public Action runIntakeInit() {
+		return new LockedUsageAction(
+				new SequentialAction(
+						new InstantAction(() -> intakeInit.open()),
+						new SleepAction(0.5),
+						new InstantAction(() -> intakeInit.close())
+				),
+				intakeInit
+		);
+	}
+
 	public Action setIntakePower(double power) {
 		return new LockedUsageAction(
 				new InstantAction(() -> {

@@ -112,12 +112,6 @@ public class RaptorRobot extends IMecanumRobot {
 				INTAKE_INIT_POS_2
 		);
 
-		intakeInit.open();
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException ignored) {}
-		intakeInit.close();
-
 		shooterLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 		if (intake2 != null) {
 			intake2.setDirection(DcMotorSimple.Direction.REVERSE);

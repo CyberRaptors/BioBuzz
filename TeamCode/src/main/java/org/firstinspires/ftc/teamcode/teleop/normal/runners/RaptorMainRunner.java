@@ -25,6 +25,7 @@ DRIVER B
 
 	A - Enable/disable shooter
 	B - Globally cancel all macros
+	Y - Run intake init
  */
 
 package org.firstinspires.ftc.teamcode.teleop.normal.runners;
@@ -113,6 +114,7 @@ public class RaptorMainRunner extends ITeleOpRunner {
 		keybinder.bind("a").of(gamepad2).to(this::toggleShooterEnabled);
 		keybinder.bind("b").of(gamepad2).to(cancelMacros);
 		keybinder.bind("x").of(gamepad2).to(() -> actions.scheduleAll(bot.shootThree(shooterMaxVelo)));
+		keybinder.bind("y").of(gamepad2).to(() -> actions.scheduleAll(bot.runIntakeInit()));
 
 		keybinder.bind("dpad_left").of(gamepad2).to(() -> shooterMaxVelo = Math.max(0, shooterMaxVelo - 30));
 		keybinder.bind("dpad_right").of(gamepad2).to(() -> shooterMaxVelo += 30);
